@@ -5,6 +5,7 @@ const handlebars = require('handlebars')
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
 const mongoose = require('mongoose')
 const session = require('express-session')
+const MongoStore = require('connect-mongodb-session')(session)
 const homeRoutes = require('./routes/home')
 const addRoutes = require('./routes/add')
 const ordersRoutes = require('./routes/orders')
@@ -12,12 +13,19 @@ const coursesRoutes = require('./routes/courses')
 const cartRoutes = require('./routes/cart')
 const authRoutes = require('./routes/auth')
 const varMiddleware = require('./middleware/variables')
-
 const User = require('./models/user')
+
 
 require('dotenv').config();
 
+const MONGODB_URI = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@cluster0-5tn2x.mongodb.net/shop`
+
 const app = express()
+
+const store = new MongoStore({
+  collection: 'sessions',
+  uri: MONGODB_URI
+})
 
 const hbs = exphbs.create({
   defaultLayout: 'main',
@@ -36,7 +44,8 @@ app.use(express.urlencoded({extended: true}))
 app.use(session({
   secret: 'some secret value',
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  store
 }))
 app.use(varMiddleware)
 
@@ -51,22 +60,11 @@ const PORT = process.env.PORT || 3001
 
 async function start() {
   try {
-    const url = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@cluster0-5tn2x.mongodb.net/shop`
-    await mongoose.connect(url, {
+    await mongoose.connect(MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false
     })
-
-    // const candidate = await User.findOne()
-    // if (!candidate) {
-    //   const user = new User({
-    //     email: 'skinilya@gmail.com',
-    //     name: 'RaD1CaL',
-    //     cart: {items: []}
-    //   })
-    //   await user.save()
-    // }
 
 
     app.listen(PORT, () => {
