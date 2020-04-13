@@ -39,3 +39,8 @@
 .auth {
     padding-top: 1rem;
 }
+
+.avatar {
+    max-width: 300px;
+    height: auto;
+}
