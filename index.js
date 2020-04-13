@@ -5,6 +5,7 @@ const handlebars = require('handlebars')
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
 const mongoose = require('mongoose')
 const session = require('express-session')
+const csurf = require('csurf')
 const MongoStore = require('connect-mongodb-session')(session)
 const homeRoutes = require('./routes/home')
 const addRoutes = require('./routes/add')
@@ -48,6 +49,7 @@ app.use(session({
   saveUninitialized: false,
   store
 }))
+app.use(csurf())
 app.use(varMiddleware)
 app.use(userMiddleware)
 
