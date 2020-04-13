@@ -9,6 +9,8 @@ const addRoutes = require('./routes/add')
 const ordersRoutes = require('./routes/orders')
 const coursesRoutes = require('./routes/courses')
 const cartRoutes = require('./routes/cart')
+const authRoutes = require('./routes/auth')
+
 const User = require('./models/user')
 
 require('dotenv').config();
@@ -42,6 +44,7 @@ app.use('/add', addRoutes)
 app.use('/courses', coursesRoutes)
 app.use('/cart', cartRoutes)
 app.use('/orders', ordersRoutes)
+app.use('/auth', authRoutes)
 
 const PORT = process.env.PORT || 3001
 
