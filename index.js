@@ -6,6 +6,7 @@ const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-acce
 const mongoose = require('mongoose')
 const session = require('express-session')
 const csurf = require('csurf')
+const flash = require('connect-flash')
 const MongoStore = require('connect-mongodb-session')(session)
 const homeRoutes = require('./routes/home')
 const addRoutes = require('./routes/add')
@@ -15,8 +16,6 @@ const cartRoutes = require('./routes/cart')
 const authRoutes = require('./routes/auth')
 const varMiddleware = require('./middleware/variables')
 const userMiddleware = require('./middleware/user')
-const User = require('./models/user')
-
 
 require('dotenv').config();
 
@@ -50,6 +49,7 @@ app.use(session({
   store
 }))
 app.use(csurf())
+app.use(flash())
 app.use(varMiddleware)
 app.use(userMiddleware)
 

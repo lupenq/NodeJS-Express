@@ -7,6 +7,11 @@
       </ul>
     </div>
     <div id="login" class="col s6 offset-s3">
+
+      {{#if loginError}}
+        <p class="card-panel red lighten-1 white-text center-align">{{loginError}}</p>
+      {{/if}}
+
       <h1>Войти в магазин</h1>
       <form action="/auth/login" method="post">
         <div class="input-field">
@@ -28,6 +33,10 @@
     </div>
 
     <div id="register" class="col s6 offset-s3">
+      {{#if registerError}}
+        <p class="card-panel red lighten-1 white-text center-align">{{registerError}}</p>
+      {{/if}}
+
       <h1>Зарегистрироваться</h1>
       <form action="/auth/register" method="post">
         <div class="input-field">
