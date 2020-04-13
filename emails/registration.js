@@ -1,5 +1,4 @@
 module.exports = function (email) {
-  console.log(process.env.EMAIL)
   return {
     to: email,
     from: process.env.EMAIL,
